@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body style="font-family: sans-serif; background-color: #f0f0f0; text-align: center; padding-top: 100px;">
+  <h2>Login to SRHS BOOKs</h2>
+  <form>
+    <input type="text" placeholder="Username" required><br><br>
+    <input type="password" placeholder="Password" required><br><br>
+    <button onclick="login()" type="button">Login</button>
+  </form>
+  <p>Don't have an account? <a href="signin.html">Create an account Signin!</a></p>
+
+  <script>
+    function login() {
+      // Simulated login (you can replace this with real backend logic)
+      alert("Login Successful!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

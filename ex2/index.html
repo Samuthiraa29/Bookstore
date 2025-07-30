@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SRHS BOOKs | Home</title>
+ 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', sans-serif; background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f') no-repeat center center fixed; background-size: cover; color: #fff;">
+
+
+  <div style="background-color: rgba(44, 62, 80, 0.9); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    <div style="font-size: 24px; font-weight: bold;">📚 SRHS BOOKs</div>
+
+    <div style="display: flex; align-items: center; gap: 25px; flex-wrap: wrap;">
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">🏠 Home</a>
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">🛍️ Shop</a>
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">🧺 Cart</a>
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">📂 Categories</a>
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">🆘 Help</a>
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">ℹ️ About</a>
+      <a href="#" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 5px;">📞 Contact</a>
+    </div>
+
+   
+    <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+      <input type="text" id="searchBar" placeholder="Search Book Name..." style="padding: 7px 10px; width: 200px; border-radius: 5px; border: none;">
+      <select id="authorFilter" style="padding: 7px 10px; border-radius: 5px; border: none;">
+        <option value="">Select Author</option>
+        <option value="J.K. Rowling">J.K. Rowling</option>
+        <option value="Vyasa">Vyasa</option>
+        <option value="Charles Perrault">Charles Perrault</option>
+      </select>
+      <button onclick="filterBooks()" style="padding: 8px 15px; background-color: #e67e22; color: white; border: none; border-radius: 5px;">Search</button>
+
+     
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" style="padding: 8px 15px; background-color: #3498db; border: none; border-radius: 5px;">
+          Login
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="signin.html">Signin</a></li>
+          <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <h1 style="font-size: 60px; text-shadow: 3px 3px 6px #000;">Welcome to <span style="color: #e67e22;">SRHS BOOKs</span></h1>
+    <p style="font-size: 24px; margin-bottom: 40px; text-shadow: 1px 1px 3px #000;">Discover. Read. Love. 📚</p>
+
+   
+    <button onclick="redirectWelcome()" 
+      style="background: linear-gradient(to right, #6a11cb, #2575fc); color: white; border: none; padding: 20px 40px; font-size: 22px; font-weight: bold; border-radius: 12px; cursor: pointer; box-shadow: 4px 4px 12px rgba(0,0,0,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;"
+      onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='6px 6px 15px rgba(0,0,0,0.4)';"
+      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='4px 4px 12px rgba(0,0,0,0.3)';"
+    >
+      Welcome
+    </button>
+  </div>
+
+ 
+  <div class="container my-5">
+    <div class="row justify-content-center" id="bookCards"></div>
+  </div>
+
+ 
+  <button onclick="scrollToTop()" class="btn btn-warning position-fixed bottom-0 end-0 m-4" style="z-index: 999;">⬆️ Top</button>
+
+  
+  <div style="background-color: rgba(44, 62, 80, 0.9); color: white; text-align: center; padding: 15px; font-weight: bold;">
+    &copy; 2025 SRHS BOOKs. All rights reserved. | <span id="time"></span>
+  </div>
+
+
+  <script>
+    function redirectWelcome() {
+      const loggedIn = localStorage.getItem("loggedIn");
+      if (loggedIn === "true") {
+        window.location.href = "shop.html";
+      } else {
+        alert("Please Login");
+      }
+    }
+
+    function filterBooks() {
+      const bookName = document.getElementById("searchBar").value.trim().toLowerCase();
+      const author = document.getElementById("authorFilter").value;
+      const cards = document.querySelectorAll('.book-card');
+
+      cards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const bookAuthor = card.dataset.author;
+        const matchTitle = !bookName || title.includes(bookName);
+        const matchAuthor = !author || bookAuthor === author;
+        card.style.display = matchTitle && matchAuthor ? 'block' : 'none';
+      });
+
+      if (!bookName && !author) {
+        alert("Please enter a search or select author.");
+      }
+    }
+
+    function logout() {
+      localStorage.setItem("loggedIn", "false");
+      alert("You have been logged out.");
+    }
+
+    const books = [
+      {
+        title: "Harry Potter",
+        author: "J.K. Rowling",
+        img: "https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg"
+      },
+      {
+        title: "Mahabharata",
+        author: "Vyasa",
+        img: "https://1.imimg.com/data/W/T/MY-1539833/Mahabharata_of_Vyasa_500x500.jpg"
+      },
+      {
+        title: "Cinderella",
+        author: "Charles Perrault",
+        img: "https://m.media-amazon.com/images/I/71u2zeJ4VmL._UF1000,1000_QL80_.jpg"
+      }
+    ];
+
+    const bookContainer = document.getElementById("bookCards");
+
+    books.forEach(book => {
+      const col = document.createElement("div");
+      col.className = "col-10 col-sm-6 col-md-4 col-lg-3 mb-4 book-card";
+      col.dataset.title = book.title;
+      col.dataset.author = book.author;
+
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm" style="min-height: 350px;">
+          <img src="${book.img}" class="card-img-top" alt="${book.title}" style="height: 250px; object-fit: cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title">${book.title}</h5>
+            <p class="card-text text-muted">by ${book.author}</p>
+          </div>
+        </div>
+      `;
+      bookContainer.appendChild(col);
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("time").textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
